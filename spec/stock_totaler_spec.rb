@@ -16,6 +16,12 @@ RSpec.describe 'stock totaler', :vcr do
   end
 
   it 'handles an invalid stock symbol' do
-    expect { calculate_total('zzzz', 2)}.to raise_error(SymbolNotFound, /No symbol matches/)
+    expect { calculate_total('ZZZZ', 2)}.to raise_error(SymbolNotFound, /No symbol matches/)
+  end
+
+  it 'handles an exception from Faraday' do
+    stub_request(:get, 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=ZZZZ').to_timeout
+
+    expect { calculate_total('ZZZZ', 2)}.to raise_error(RequestFailed, /execution expired/)
   end
 end

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=zzzz
+    uri: http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=ZZZZ
     body:
       encoding: US-ASCII
       string: ''
@@ -32,19 +32,19 @@ http_interactions:
       - CP="NON PHY ONL UNI PUR FIN COM NAV INT DEM STA HEA CUR ADM DEV OUR IND",
         policyref="/w3c/p3p.xml"
       Set-Cookie:
-      - 3481%5F0=3BC1EBCB759D63395B43CBB604E832F29868EDF3484E3F74FB08586E9CAD5459;
+      - 3481%5F0=DFBC5718F3F355E333A4417F86ECD07A6CB858731844515941EDDC4475E0FC67;
         path=/; HttpOnly
-      - GZIP=1; expires=Wed, 15-Mar-2023 08:10:00 GMT; path=/
+      - GZIP=1; expires=Wed, 15-Mar-2023 14:34:14 GMT; path=/
       X-Powered-By:
       - ASP.NET
       Date:
-      - Fri, 16 Mar 2018 08:09:59 GMT
+      - Fri, 16 Mar 2018 14:34:14 GMT
       Content-Length:
       - '208'
     body:
       encoding: ASCII-8BIT
-      string: '{"Message":"No symbol matches found for zzzz. Try another symbol such
+      string: '{"Message":"No symbol matches found for ZZZZ. Try another symbol such
         as MSFT or AAPL, or use the Lookup API."}'
     http_version: 
-  recorded_at: Fri, 16 Mar 2018 08:10:01 GMT
+  recorded_at: Fri, 16 Mar 2018 14:34:14 GMT
 recorded_with: VCR 4.0.0
