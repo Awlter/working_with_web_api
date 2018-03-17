@@ -4,19 +4,32 @@ require 'faraday'
 class SymbolNotFound < StandardError; end
 class RequestFailed < StandardError; end
 
+class MarkitClient
+  attr_reader :http_client
+
+  def initialize(http_client=Faraday.new)
+    @http_client = http_client
+  end
+
+  def last_price(symbol)
+    url = 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json'
+    response = http_client.get(url, symbol: symbol)
+    data = JSON.load(response.body)
+    price = data["LastPrice"]
+
+    raise SymbolNotFound, data['Message'] unless price
+
+    price.to_f
+  rescue Faraday::Error => e
+    raise RequestFailed, e.message, e.backtrace
+  end
+end
+
 def calculate_total(symbol, quantity)
-  url = 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json'
-  http_client = Faraday.new
-  response = http_client.get(url, symbol: symbol)
-  data = JSON.load(response.body)
-  price = data["LastPrice"]
+  markit_client = MarkitClient.new
+  price = markit_client.last_price(symbol)
 
-  raise SymbolNotFound, data['Message'] unless price
-
-  price.to_f * quantity.to_i
-
-rescue Faraday::Error => e
-  raise RequestFailed, e.message, e.backtrace
+  price * quantity.to_i
 end
 
 if __FILE__ == $0
