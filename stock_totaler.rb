@@ -12,14 +12,20 @@ class MarkitClient
   end
 
   def last_price(symbol)
-    url = 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json'
-    response = http_client.get(url, symbol: symbol)
-    data = JSON.load(response.body)
+    data = make_request(symbol)
     price = data["LastPrice"]
 
     raise SymbolNotFound, data['Message'] unless price
 
     price.to_f
+  end
+
+  private
+
+  def make_request(symbol)
+    url = 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json'
+    response = http_client.get(url, symbol: symbol)
+    JSON.load(response.body)
   rescue Faraday::Error => e
     raise RequestFailed, e.message, e.backtrace
   end
